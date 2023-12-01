@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HomeController {
+public class OrdersController {
     @FXML
     private JFXButton btnNotifications;
     @FXML
