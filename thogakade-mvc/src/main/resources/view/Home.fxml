@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -47,7 +48,7 @@
             <Image url="@../img/rectangle_10.png" />
          </image>
       </ImageView>
-      <JFXButton alignment="BASELINE_LEFT" layoutX="25.0" layoutY="266.0" prefHeight="48.0" prefWidth="143.0" text="Dashboard" textFill="#f7f9ff">
+      <JFXButton fx:id="btnDashboard" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="25.0" layoutY="266.0" prefHeight="48.0" prefWidth="143.0" text="Dashboard" textFill="#f7f9ff">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -55,8 +56,15 @@
                </image>
             </ImageView>
          </graphic>
+         <styleClass>
+            <String fx:value="active-nav-item" />
+            <String fx:value="nav-item" />
+         </styleClass>
+         <font>
+            <Font size="13.0" />
+         </font>
       </JFXButton>
-      <JFXButton alignment="BASELINE_LEFT" layoutX="25.0" layoutY="321.0" prefHeight="48.0" prefWidth="143.0" text="Items" textFill="#f7f9ff">
+      <JFXButton fx:id="btnItems" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="25.0" layoutY="321.0" prefHeight="48.0" prefWidth="143.0" styleClass="nav-item" text="Items" textFill="#f7f9ff">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -64,8 +72,11 @@
                </image>
             </ImageView>
          </graphic>
+         <font>
+            <Font size="13.0" />
+         </font>
       </JFXButton>
-      <JFXButton alignment="BASELINE_LEFT" layoutX="25.0" layoutY="376.0" prefHeight="48.0" prefWidth="143.0" text="Orders" textFill="#f7f9ff">
+      <JFXButton fx:id="btnOrders" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="25.0" layoutY="376.0" prefHeight="48.0" prefWidth="143.0" styleClass="nav-item" text="Orders" textFill="#f7f9ff">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -73,8 +84,11 @@
                </image>
             </ImageView>
          </graphic>
+         <font>
+            <Font size="13.0" />
+         </font>
       </JFXButton>
-      <JFXButton alignment="BASELINE_LEFT" layoutX="25.0" layoutY="431.0" prefHeight="48.0" prefWidth="143.0" text="Customers" textFill="#f7f9ff">
+      <JFXButton fx:id="btnCustomers" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="25.0" layoutY="431.0" prefHeight="48.0" prefWidth="143.0" styleClass="nav-item" text="Customers" textFill="#f7f9ff">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -82,8 +96,11 @@
                </image>
             </ImageView>
          </graphic>
+         <font>
+            <Font size="13.0" />
+         </font>
       </JFXButton>
-      <JFXButton alignment="BASELINE_LEFT" layoutX="25.0" layoutY="486.0" prefHeight="48.0" prefWidth="143.0" text="Place Orders" textFill="#f7f9ff">
+      <JFXButton fx:id="btnPlaceOrders" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="25.0" layoutY="486.0" prefHeight="48.0" prefWidth="143.0" styleClass="nav-item" text="Place Orders" textFill="#f7f9ff">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -91,8 +108,11 @@
                </image>
             </ImageView>
          </graphic>
+         <font>
+            <Font size="13.0" />
+         </font>
       </JFXButton>
-      <JFXButton alignment="BASELINE_LEFT" layoutX="25.0" layoutY="658.0" prefHeight="48.0" prefWidth="143.0" text="Settings" textFill="#f7f9ff">
+      <JFXButton fx:id="btnSettings" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="25.0" layoutY="658.0" prefHeight="48.0" prefWidth="143.0" styleClass="nav-item" text="Settings" textFill="#f7f9ff">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -100,16 +120,19 @@
                </image>
             </ImageView>
          </graphic>
+         <font>
+            <Font size="13.0" />
+         </font>
       </JFXButton>
-      <Label layoutX="233.0" layoutY="29.0" text="Statistics" textFill="#f7f9ff">
+      <Label layoutX="233.0" layoutY="29.0" text="Dashboard" textFill="#f7f9ff">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <JFXButton layoutX="929.0" layoutY="24.0" prefHeight="45.0" prefWidth="101.0" text="Logout" textFill="#242529" />
-      <JFXButton layoutX="1049.0" layoutY="25.0" prefHeight="44.0" prefWidth="45.0" text="">
+      <JFXButton fx:id="btnLogout" layoutX="929.0" layoutY="24.0" prefHeight="45.0" prefWidth="101.0" text="Logout" textFill="#242529" />
+      <JFXButton fx:id="btnNotifications" layoutX="1049.0" layoutY="25.0" prefHeight="44.0" prefWidth="45.0" text="">
          <graphic>
-            <ImageView fitHeight="16.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btnNotifications" fitHeight="16.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/notification.png" />
                </image>
@@ -127,7 +150,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <JFXButton alignment="CENTER" layoutX="70.0" layoutY="208.0" prefHeight="17.0" prefWidth="41.0" text="Edit" textFill="#f7f9ff">
+      <JFXButton fx:id="btnEdit" alignment="CENTER" layoutX="70.0" layoutY="208.0" prefHeight="17.0" prefWidth="41.0" text="Edit" textFill="#f7f9ff">
          <font>
             <Font size="10.0" />
          </font>
