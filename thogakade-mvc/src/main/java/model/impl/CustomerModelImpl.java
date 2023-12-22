@@ -14,17 +14,29 @@ import java.util.List;
 public class CustomerModelImpl implements CustomerModel {
     @Override
     public boolean saveCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
-        return false;
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO customer VALUES(?,?,?,?)");
+        preparedStatement.setString(1,customerDTO.getId());
+        preparedStatement.setString(2,customerDTO.getName());
+        preparedStatement.setString(3,customerDTO.getAddress());
+        preparedStatement.setDouble(4,customerDTO.getSalary());
+        return preparedStatement.executeUpdate()>0;
     }
 
     @Override
     public boolean updateCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
-        return false;
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE customer SET name=?, address=?, salary=? WHERE id=?");
+        preparedStatement.setString(1,customerDTO.getName());
+        preparedStatement.setString(2,customerDTO.getAddress());
+        preparedStatement.setDouble(3,customerDTO.getSalary());
+        preparedStatement.setString(4,customerDTO.getId());
+        return preparedStatement.executeUpdate()>0;
     }
 
     @Override
     public boolean deleteCustomer(String id) throws SQLException, ClassNotFoundException {
-        return false;
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE from customer WHERE id=?");
+        preparedStatement.setString(1,id);
+        return preparedStatement.executeUpdate()>0;
     }
 
     @Override

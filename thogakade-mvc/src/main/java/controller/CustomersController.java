@@ -25,8 +25,11 @@ import model.impl.CustomerModelImpl;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CustomersController implements Initializable {
     @FXML
@@ -202,5 +205,99 @@ public class CustomersController implements Initializable {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void saveCustomer() {
+        if (isAnyInputDataInvalid()) {
+            return;
+        }
+        try {
+            boolean isSaved = customerModel.saveCustomer(new CustomerDTO(txtId.getText(),
+                    txtName.getText(),
+                    txtAddress.getText(),
+                    Double.parseDouble(txtSalary.getText())
+            ));
+            if (isSaved) {
+                new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
+                loadCustomers();
+                clearFields();
+            }
+        } catch (SQLIntegrityConstraintViolationException ex) {
+            new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearFields() {
+        tblCustomers.refresh();
+        txtId.clear();
+        txtName.clear();
+        txtAddress.clear();
+        txtSalary.clear();
+        txtId.setEditable(true);
+    }
+
+    private boolean validateSalary() {
+        double salary;
+        try {
+            salary = Double.parseDouble(txtSalary.getText());
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid salary");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter a valid salary");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateId() {
+        Pattern pattern = Pattern.compile("^C[0-9]{3}$");
+        Matcher matcher = pattern.matcher(txtId.getText());
+
+        if (matcher.find() && matcher.group().equals(txtId.getText())) {
+            return true;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid ID");
+        alert.setHeaderText(null);
+        alert.setContentText("Please enter a valid ID");
+        alert.showAndWait();
+        return false;
+    }
+
+    private boolean isAnyInputDataInvalid() {
+        return !validateId() | !validateSalary();
+    }
+
+    public void updateCustomer() {
+        if (isAnyInputDataInvalid()) {
+            return;
+        }
+        try {
+            boolean isUpdated = customerModel.updateCustomer(new CustomerDTO(txtId.getText(),
+                    txtName.getText(),
+                    txtAddress.getText(),
+                    Double.parseDouble(txtSalary.getText())
+            ));
+            if (isUpdated) {
+                new Alert(Alert.AlertType.INFORMATION, "Customer Updated!").show();
+                loadCustomers();
+                clearFields();
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveButtonOnAction() {
+        saveCustomer();
+    }
+
+    public void updateButtonOnAction() {
+        updateCustomer();
     }
 }
