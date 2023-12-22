@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerTM extends RecursiveTreeObject<ItemTM> {
+public class CustomerTM {
     private String id;
     private String name;
     private String address;
