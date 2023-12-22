@@ -162,7 +162,7 @@
             <TableColumn fx:id="colOption" prefWidth="159.0" text="Option" />
         </columns>
       </TableView>
-      <JFXButton fx:id="btnSave" layoutX="990.0" layoutY="675.0" onAction="#logoutButtonOnAction" prefHeight="45.0" prefWidth="101.0" stylesheets="@../css/items.css" text="Save" textFill="#242529" />
-      <JFXButton fx:id="btnUpdate" layoutX="869.0" layoutY="675.0" onAction="#logoutButtonOnAction" prefHeight="45.0" prefWidth="101.0" stylesheets="@../css/items.css" text="Update" textFill="#242529" />
+      <JFXButton fx:id="btnSave" layoutX="990.0" layoutY="675.0" onAction="#saveButtonOnAction" prefHeight="45.0" prefWidth="101.0" stylesheets="@../css/items.css" text="Save" textFill="#242529" />
+      <JFXButton fx:id="btnUpdate" layoutX="869.0" layoutY="675.0" onAction="#updateButtonOnAction" prefHeight="45.0" prefWidth="101.0" stylesheets="@../css/items.css" text="Update" textFill="#242529" />
    </children>
 </AnchorPane>

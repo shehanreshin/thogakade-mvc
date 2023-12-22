@@ -24,8 +24,11 @@ import model.impl.ItemModelImpl;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ItemsController implements Initializable {
     @FXML
@@ -138,20 +141,6 @@ public class ItemsController implements Initializable {
         }
     }
 
-    public void deleteItem(String id) {
-        try {
-            boolean isDeleted = itemModel.deleteItem(id);
-            if (isDeleted) {
-                new Alert(Alert.AlertType.INFORMATION, "Item Deleted!").show();
-                loadItems();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colCode.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -174,5 +163,133 @@ public class ItemsController implements Initializable {
             txtUnitPrice.setText(String.valueOf(newValue.getUnitPrice()));
             txtQty.setText(String.valueOf(newValue.getQty()));
         }
+    }
+
+    private boolean validateQtyOnHand() {
+        Pattern pattern = Pattern.compile("^[0-9]+$");
+        Matcher matcher = pattern.matcher(txtQty.getText());
+
+        if (
+                matcher.find()
+                        && matcher.group().equals(txtQty.getText())
+                        && Integer.parseInt(txtQty.getText()) >= 0
+        ) {
+            return true;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Quantity On Hand");
+        alert.setHeaderText(null);
+        alert.setContentText("Please enter a valid number for quantity on hand");
+        alert.showAndWait();
+        return false;
+    }
+
+    private boolean validateUnitPrice() {
+        double unitPrice;
+        try {
+            unitPrice = Double.parseDouble(txtUnitPrice.getText());
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Unit Price");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter a valid unit price");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateCode() {
+        Pattern pattern = Pattern.compile("^P[0-9]{3}$");
+        Matcher matcher = pattern.matcher(txtCode.getText());
+
+        if (matcher.find() && matcher.group().equals(txtCode.getText())) {
+            return true;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Code");
+        alert.setHeaderText(null);
+        alert.setContentText("Please enter a valid code");
+        alert.showAndWait();
+        return false;
+    }
+
+    private boolean isAnyInputDataInvalid() {
+        return !validateCode() | !validateUnitPrice() | !validateQtyOnHand();
+    }
+
+    public void deleteItem(String id) {
+        try {
+            boolean isDeleted = itemModel.deleteItem(id);
+            if (isDeleted) {
+                new Alert(Alert.AlertType.INFORMATION, "Item Deleted!").show();
+                loadItems();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveItem() {
+        if (isAnyInputDataInvalid()) {
+            return;
+        }
+        try {
+            boolean isSaved = itemModel.saveItem(new ItemDTO(txtCode.getText(),
+                    txtDescription.getText(),
+                    Double.parseDouble(txtUnitPrice.getText()),
+                    Integer.parseInt(txtQty.getText())
+            ));
+            if (isSaved) {
+                new Alert(Alert.AlertType.INFORMATION, "Item Saved!").show();
+                loadItems();
+                clearFields();
+            }
+        } catch (SQLIntegrityConstraintViolationException ex) {
+            new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearFields() {
+        tblItems.refresh();
+        txtCode.clear();
+        txtDescription.clear();
+        txtUnitPrice.clear();
+        txtQty.clear();
+        txtCode.setEditable(true);
+    }
+
+    public void saveButtonOnAction() {
+        saveItem();
+    }
+
+    public void updateItem() {
+        if (isAnyInputDataInvalid()) {
+            return;
+        }
+        try {
+            boolean isUpdated = itemModel.updateItem(new ItemDTO(txtCode.getText(),
+                    txtDescription.getText(),
+                    Double.parseDouble(txtUnitPrice.getText()),
+                    Integer.parseInt(txtQty.getText())
+            ));
+            if (isUpdated) {
+                new Alert(Alert.AlertType.INFORMATION, "Item Updated!").show();
+                loadItems();
+                clearFields();
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateButtonOnAction() {
+        updateItem();
     }
 }

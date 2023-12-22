@@ -12,18 +12,30 @@ import java.util.List;
 
 public class ItemModelImpl implements ItemModel {
     @Override
-    public boolean saveItem(ItemDTO itemDTO) {
-        return false;
+    public boolean saveItem(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO item VALUES(?,?,?,?)");
+        preparedStatement.setString(1,itemDTO.getCode());
+        preparedStatement.setString(2,itemDTO.getDesc());
+        preparedStatement.setDouble(3,itemDTO.getUnitPrice());
+        preparedStatement.setInt(4,itemDTO.getQty());
+        return preparedStatement.executeUpdate()>0;
     }
 
     @Override
-    public boolean updateItem(ItemDTO itemDTO) {
-        return false;
+    public boolean updateItem(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
+        preparedStatement.setString(1,itemDTO.getDesc());
+        preparedStatement.setDouble(2,itemDTO.getUnitPrice());
+        preparedStatement.setInt(3,itemDTO.getQty());
+        preparedStatement.setString(4,itemDTO.getCode());
+        return preparedStatement.executeUpdate()>0;
     }
 
     @Override
-    public boolean deleteItem(String code) {
-        return false;
+    public boolean deleteItem(String code) throws SQLException, ClassNotFoundException {
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE from item WHERE code=?");
+        preparedStatement.setString(1,code);
+        return preparedStatement.executeUpdate()>0;
     }
 
     @Override
