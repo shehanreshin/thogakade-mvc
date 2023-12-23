@@ -2,10 +2,8 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import dto.CustomerDTO;
-import dto.OrderDTO;
-import dto.tm.CustomerTM;
-import dto.tm.OrderTM;
+import dto.OrderDetailDTO;
+import dto.tm.OrderDetailTM;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,8 +16,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.OrderModel;
-import model.impl.OrderModelImpl;
+import model.OrderDetailModel;
+import model.impl.OrderDetailModelImpl;
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,7 +57,7 @@ public class OrdersController implements Initializable {
     private JFXTextField txtSearch;
 
     @FXML
-    private TableView<OrderTM> tblOrders;
+    private TableView<OrderDetailTM> tblOrders;
 
     @FXML
     private TableColumn colOrderId;
@@ -73,7 +71,7 @@ public class OrdersController implements Initializable {
     @FXML
     private TableColumn colUnitPrice;
 
-    private final OrderModel orderModel = new OrderModelImpl();
+    private final OrderDetailModel orderDetailModel = new OrderDetailModelImpl();
 
     public void notificationsButtonOnAction() {
     }
@@ -127,17 +125,17 @@ public class OrdersController implements Initializable {
     }
 
     private void loadOrders() {
-        ObservableList<OrderTM> tmList = FXCollections.observableArrayList();
+        ObservableList<OrderDetailTM> tmList = FXCollections.observableArrayList();
         try {
-            List<OrderDTO> dtoList = orderModel.allOrders();
-            for (OrderDTO orderDTO : dtoList) {
-                OrderTM orderTM = new OrderTM(
-                        orderDTO.getOrderId(),
-                        orderDTO.getItemCode(),
-                        orderDTO.getQty(),
-                        orderDTO.getUnitPrice()
+            List<OrderDetailDTO> dtoList = orderDetailModel.allOrders();
+            for (OrderDetailDTO orderDetailDTO : dtoList) {
+                OrderDetailTM orderDetailTM = new OrderDetailTM(
+                        orderDetailDTO.getOrderId(),
+                        orderDetailDTO.getItemCode(),
+                        orderDetailDTO.getQty(),
+                        orderDetailDTO.getUnitPrice()
                 );
-                tmList.add(orderTM);
+                tmList.add(orderDetailTM);
             }
 
             tblOrders.setItems(tmList);

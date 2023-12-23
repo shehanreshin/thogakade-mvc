@@ -5,15 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDTO {
+public class OrderDetailDTO {
     private String orderId;
-    private String date;
-    private String custId;
-    private List<OrderDetailDTO> list;
+    private String itemCode;
+    private int qty;
+    private double unitPrice;
 }
